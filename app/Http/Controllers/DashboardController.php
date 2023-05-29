@@ -8,18 +8,25 @@ use Illuminate\Support\Facades\Log;
 use App\Helpers\helper;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Records;
+use App\Models\Categorias;
+use App\Models\Calculo;
+
+
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $registros = Records::orderBy('id','asc')->get();
+        $registros = Records::select('records.*','categorias.categoria')
+        ->leftJoin('categorias','records.concepto','=','categorias.id')
+        ->get();
         return view('dashboard',compact('registros'));
     }
 
     public function create(Request $request)
     {
-        return view('create');
+        $categorias = Categorias::all();
+        return view('create', compact("categorias"));
     }
 
     public function processcreate(Request $request)
@@ -32,14 +39,14 @@ class DashboardController extends Controller
                 'monto'             => 'required|numeric',
             ],
             [
-                'categoria.required'   => ' El campo teléfono es obligatorio',
+                'categoria.required'   => ' El campo categoria es obligatorio',
 
                 'descripcion.required' => ' El campo descripcion es obligatorio',
                 'descripcion.max'      => ' El campo descripcion no debe tener más de 100 caracteres',
                 'descripcion.min'      => ' El campo descripcion debe tener al menos 2 caracteres',
 
                 'monto.required'       => ' El campo monto es obligatorio',
-                'monto.numeric'        => ' El campo monto no debe tener más de 300 caracteres',
+                'monto.numeric'        => ' El campo monto no debe ser numerico',
             ]);
 
             $categoria    = $request->get('categoria');    
@@ -52,10 +59,87 @@ class DashboardController extends Controller
                 'tipo'        => $tipoCreacion,
                 'concepto'    => $categoria,
                 'descripcion' => $descripcion,
+                'monto'       => $monto,
                 'created_at'  => date("Y-m-d"),
             ]);
 
-            return redirect('dashboard')->with(['message' => 'Se ha creado una nueva transaccion']);
+            return redirect()->route('dashboard.index')->with('message', 'Transaccion creada correctamente');
     
+    }
+
+    public function edit($id)
+    {
+        $datos = Records::where('id',$id)->get();
+        $categorias = Categorias::all();
+        return view('edit', compact("categorias","datos"));
+    }
+
+    public function procesarupdate(Request $request)
+    {
+
+        
+       
+        $datos = $request->validate(
+            [
+                'descripcion'       => 'required|string|max:100|min:2',
+                'monto'             => 'required|numeric',
+                'iddato'            => 'required|numeric',
+            ],
+            [
+                'descripcion.required' => ' El campo descripcion es obligatorio',
+                'descripcion.max'      => ' El campo descripcion no debe tener más de 100 caracteres',
+                'descripcion.min'      => ' El campo descripcion debe tener al menos 2 caracteres',
+
+                'monto.required'       => ' El campo monto es obligatorio',
+                'monto.numeric'        => ' El campo monto no debe tener más de 300 caracteres',
+
+                'iddato.numeric'       => ' Se elimino el id',
+            ]);
+
+            $descripcion  = $request->get('descripcion');
+            $monto        = $request->get('monto');
+            $iddato       = $request->get('iddato');
+
+            Records::where('id',$iddato)->update(['descripcion'=>$descripcion, 'monto' => $monto]);
+
+            return redirect()->route('dashboard.index')->with('message', 'Transaccion editada correctamente');
+    
+    }
+
+    public function delete($id)
+    {
+        $datos=Records::where('id',$id)->delete();
+        return redirect()->route('dashboard.index')->with('message', 'Transaccion eliminada correctamente');
+    }
+
+    public function calculo()
+    {
+        
+        
+        $calcingresos = Records::select(DB::RAW('SUM(monto) as totingresos'))
+        ->where('tipo',1)
+        ->get();
+
+        foreach ($calcingresos as $ingreso ) {
+            $totingresos = $ingreso->totingresos;
+        }
+
+
+        $calcegresos = Records::select(DB::RAW('SUM(monto) as totegresos'))
+        ->where('tipo',2)
+        ->get();
+
+        foreach ($calcegresos as $egreso ) {
+            $totegresos = $egreso->totegresos;
+        }
+
+/*         $registros = Calculo::all();
+        $calculo = [];
+        foreach ($registros as $registro)
+        {
+           $calculo[] = ['name' => $registro['categoria'],'y' => $registro['valor']]; 
+        } */
+       
+        return view('calculo',compact('totingresos','totegresos'));
     }
 }

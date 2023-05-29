@@ -62,9 +62,9 @@
                     <span>Crear</span></a>
             </li>
             <li class="nav-item ">
-                <a class="nav-link" href="{{route('dashboard.index')}}">
+                <a class="nav-link" href="{{route('dashboard.calculo')}}">
                     <i class="fas fa-fw fa-user"></i>
-                    <span>Usuarios</span></a>
+                    <span>Calculo</span></a>
             </li>
 
             <!-- Nav Item - Pages Collapse Menu -->
@@ -144,7 +144,7 @@
                         <li class="nav-item dropdown no-arrow">
                             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->nombre }}</span>
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">{{ auth()->user()->email }}</span>
                                 <img class="img-profile rounded-circle"
                                     src="img/undraw_profile.svg">
                             </a>
@@ -183,10 +183,12 @@
                                                         <tr>
                                                             <th>ID</th>
                                                             <th>Tipo</th>
-                                                            <th>Consepto</th>
-                                                            <th>Descripcion</th>
+                                                            <th>Categoria</th>
+                                                            <th>Monto</th>
+                                                            <th>Descripción</th>
                                                             <th>Fecha</th>
                                                             <th>Editar</th>
+                                                            <th>Eliminar</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -194,17 +196,17 @@
                                                             @foreach($registros as $re)
                                                             <tr>
                                                                 <td style="text-align: right;">{{    $re->id     }}</td>
-                                                                <td>@if   ($re->tipo == 1) Ingreso @else  Egreso @endif</td>
-                                                                <td>{{    $re->concepto      }}</td>
+                                                                <td>@if   ($re->tipo == 1) <span style="color: green;"> <b>Ingreso</b>  </span>  @else <span style="color: red;"> Egreso </span> @endif</td>
+                                                                <td>{{    $re->categoria      }}</td>
+                                                                <td>$ {{    $re->monto      }}</td>
                                                                 <td>{{    $re->descripcion      }}</td>
                                                                 <td>
-
-                                                                <?php                        
-                                                                    echo date("d/m/Y H:i",strtotime($re->created_at)); 
-                                                                ?>
-
+                                                                    <?php                        
+                                                                        echo date("d/m/Y H:i",strtotime($re->created_at)); 
+                                                                    ?>
                                                                 </td>
-                                                                <td> <a href="{{ route('dashboard.index',$re->id) }}"><i class="fa fa-search text-danger"></i></a></td>
+                                                                <td align="center"> <a href="{{ route('dashboard.edit',$re->id) }}"><i class="fa fa-search text-danger"></i></a></td>
+                                                                <td align="center"> <a href="{{ route('dashboard.delete',$re->id) }}"><i class="fa fa-trash text-danger"></i></a></td>
                                                             </tr>
                                                             @endforeach
                                                         @endif    
@@ -254,6 +256,46 @@
         </div>
     </div>
 
+
+
+    
+    <div class="modal fade" id="respuestasuccess" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modificación de usuario</h5>
+                    <button class="close cerrarreload" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col">
+                        <div class="row my-3">
+                            <div class="col">
+                            <div class="p-3 mb-2 bg-success text-white">
+
+
+
+                                    {{ Session::get('message') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary cerrarreload" type="button" data-dismiss="modal">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+
+    @if (Session::has('message'))
+        <script>
+            $("#respuestasuccess").modal("show");
+        </script>
+    @endif
+
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
     <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -278,16 +320,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>    
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>    
 <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>    
-<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js                                                                        "></script>    
-
-
-
-
-
-
-
-
-
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.print.min.js"></script>    
 
 
     <!-- <script src="js/vistas/dashboard.js"></script> -->

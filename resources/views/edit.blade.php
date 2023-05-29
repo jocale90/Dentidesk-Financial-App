@@ -36,8 +36,7 @@
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('dashboard.index')}}">
                 
-                <img width="30" src="img/Enerquinta.svg" alt="">
-                <div class="sidebar-brand-text mx-3">Dentidesk</div>
+
             </a>
 
             <!-- Divider -->
@@ -104,7 +103,7 @@
                     </button>
 
                     <!-- Topbar Search -->
-                    <h5>Crear transacción</h5>
+                    <h5>Dentidesk</h5>
 
                     <!-- Topbar Navbar -->
                     <ul class="navbar-nav ml-auto">
@@ -163,14 +162,36 @@
                     <!-- Content Row -->
                     <div class="row mt-3">
                         <div class="col pb-3 mt-3">
-                            <h4 class=" col-sm-8 m-auto text-center">Registrar nueva transacción</h4>
+                            <h4 class=" col-sm-8 m-auto text-center">Editar trasanccion</h4>
                             <br>
                             <div class="col col-sm-8 m-auto">
                                 <div class="stepwizard mt-4">
                                     <div class="stepwizard-row setup-panel" style="display:none">
 
                                    
+                                        
+                                    <div class="stepwizard-step col-xs-3"> 
+                                            <a style="cursor:context-menu !important;" id="step-1" type="button" class="btn btn-default btn-circle" disabled="disabled">1</a>
+                                            <p><small>Ingreso</small></p>
+                                        </div>
 
+                                        <div class="stepwizard-step col-xs-3"> 
+                                            <a style="cursor:context-menu !important;" id="step-2" type="button" class="btn btn-default btn-circle">2</a>
+                                            <p><small>En evaluación</small></p>
+                                        </div>
+
+                                        <div class="stepwizard-step col-xs-3"> 
+                                            <a style="cursor:context-menu !important;" id="step-3" type="button" class="btn btn-default btn-circle" disabled="disabled">3</a>
+                                            <p><small>Pendiente de pago</small></p>
+                                        </div>
+                                        <div class="stepwizard-step col-xs-3"> 
+                                            <a style="cursor:context-menu !important;" id="step-4" type="button" class="btn btn-default btn-circle" disabled="disabled">4</a>
+                                            <p><small>En construcción</small></p>
+                                        </div>
+                                        <div class="stepwizard-step col-xs-3"> 
+                                            <a style="cursor:context-menu !important;" id="step-5" type="button" class="btn btn-default btn-circle" disabled="disabled">5</a>
+                                            <p><small>Cerrada</small></p>
+                                        </div>
                                         
                                     </div>
 
@@ -185,125 +206,50 @@
                                                 <div class="col-12 col-sm-10 m-auto">
                                                  <input type="hidden" id="inputorden" value="">   
                                                 
-                                                    <div class="row">
-                                                        <div class="col-12 col-sm text-center">
-                                                            ¿Qué tipo de transacción desea crear?
-                                                            <br>                    
-                                                            <br>
-                                                            <div class="form-check">
-                                                                <input id="crear-contratista" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">Ingreso
-                                                            </div>
-                                                            <div class="form-check">
-                                                                <input id="crear-backoffice" class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2">Egreso
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                
-                                                <div id="formulario-backoffice" style="display:none;">
-                                                    <form action="{{ route('dashboard.processcreate') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="tipo-creacion" value="2">
+                                                @if(isset($datos))
+                                                @foreach($datos as $dato)
+
+
+                                                <form action="{{ route('dashboard.procesarupdate') }}" method="POST">
+                                                @csrf
+                                                <input type="hidden" name="iddato" value="{{ $dato->id }}">
                                                     <div class="row">
                                                         <div class="col-12 col-sm">
-                                                            <br>
-                                                            <p class="text-center"> <b> Nuevo egreso  </b> </p>
-                                                            <br>
+                                                            
+                                                        
                                                             <div class="row mt-3">        
                                                                 <div class="col-12 col-sm">
-                                                                    <label for="">Categoria del egreso</label>
+                                                                    <label for="">Decripcion</label>
                                                                 </div>
                                                                 <div class="col-12 col-sm">
-                                                                <Select class="form-control" name="categoria" id="nombre">
-                                                                    <option value=""> Seleccione una categoria </option>
-                                                                    @if(isset($categorias))
-                                                                        @foreach($categorias as $con)
-                                                                            <option value="{{ $con->id }}"> {{ $con->categoria }} </option>
-                                                                        @endforeach
-                                                                    @endif    
-                                                                </Select>
+                                                                    <input type="text" id="telefono" maxlength="70" name="descripcion" class="form-control" value="{{ $dato->descripcion }}">
                                                                 </div>
                                                             </div>
+                                                        
                                                             <div class="row mt-3">        
                                                                 <div class="col-12 col-sm">
-                                                                    <label for="">Descripcion del egreso</label>
+                                                                    <label for="">Monto</label>
                                                                 </div>
                                                                 <div class="col-12 col-sm">
-                                                                    <input type="text" id="telefono" name="descripcion" class="form-control" value="">
+                                                                    <input type="text" id="telefono" maxlength="9" name="monto" class="form-control" value="{{ $dato->monto }}">
                                                                 </div>
                                                             </div>
-                                                            <div class="row mt-3">
-                                                                <div class="col-12 col-sm">
-                                                                    <label for="">Monto egresado</label>
-                                                                </div>
-                                                                <div class="col-12 col-sm">
-                                                                    <input type="text" id="correo" name="monto" value="" class="form-control">
-                                                                </div>
-                                                            </div>
+                                                          
                                                             <div class="row mt-5 text-center">
-                                                            <div class="col-md-12">
-                                                                <button class="btn btn-primary">Guardar registro</button>
-                                                            </div>
-                                                            </form>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-
-                                                <div id="formulario-contratista" style="display:none;">
-
-                                                    <form action="{{ route('dashboard.processcreate') }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="tipo-creacion" value="1">
-                                                    <div class="row">
-                                                        <div class="col-12 col-sm">
-                                                            <br>
-                                                        <p class="text-center"> <b> Nuevo Ingreso  </b> </p>
-                                                        <br>
-                                                            <div class="row mt-3">        
-                                                                <div class="col-12 col-sm">
-                                                                    <label for="">Categoria del ingreso</label>
-                                                                </div>
-                                                                <div class="col-12 col-sm">
-                                                                    <Select class="form-control" name="categoria" id="nombre-contratista">
-                                                                    <option value=""> Seleccione una categoria </option>
-                                                                    @if(isset($categorias))
-                                                                        @foreach($categorias as $con)
-                                                                            <option value="{{ $con->id }}"> {{ $con->categoria }} </option>
-                                                                        @endforeach
-                                                                    @endif    
-                                                                </Select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-3">        
-                                                                <div class="col-12 col-sm">
-                                                                    <label for="">Descripción del ingreso</label>
-                                                                </div>
-                                                                <div class="col-12 col-sm">
-                                                                    <input type="text" id="direccion-contratista" name="descripcion" class="form-control" value="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-3">        
-                                                                <div class="col-12 col-sm">
-                                                                    <label for="">Monto Ingresado</label>
-                                                                </div>
-                                                                <div class="col-12 col-sm">
-                                                                    <input type="text" id="telefono-contratista" name="monto" class="form-control" value="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="row mt-5 text-center">
-                                                                <div class="col-md-12">
-                                                                    <button class="btn btn-primary">Guardar registro</button>
+                                                                <div class="col-md-6">
+                                                                    <button class="btn btn-primary">Actualizar datos</button>
                                                                 </div>
                                                             </form>
+
+                                                            <div class="col-md-6">
+                                                                <a href="{{ route('dashboard.index') }}"> <button type="button" class="btn btn-primary">Volver al dashboard</button>
+                                                            </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                </div>
 
-                                                <br>
-                                                <div class="col-md-12 text-center">
-                                                    <a href="{{ route('dashboard.index') }}"> <button type="button" class="btn btn-primary">Volver al listado</button>
-                                                </div>
+                                                        @endforeach
+                                                    @endif    
+                                                    </div>
                                                 
 <br>                                          
 <br>
@@ -323,6 +269,46 @@
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
+
+    <!-- Logout Modal-->
+    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Asignar Contratista a solicitud N° </h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="col">
+                        <div class="row my-3">
+                            <div class="col"><label for="">Seleccionar Contratista</label></div>
+                            <div class="col">
+                                <Select class="form-control" name="setcontratista" id="setcontratista">
+                                    <option value=""> Seleccione un contratista </option>
+                                    @if(isset($obtcontratista))
+                                        @foreach($obtcontratista as $con)
+                                            <option value="{{ $con->id_contratista }}"> {{ $con->nombre }} </option>
+                                        @endforeach
+                                    @endif    
+
+                                </Select>
+                                
+                            </div>
+                            
+                        </div>
+                        <p id="texto_error_contratista" style="color:red; font-size:14px; display: none;">Debe seleccionar un contratista</p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
+                    <a class="btn btn-primary" id="savecontratista"> Asignar Contratista </a>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
@@ -463,6 +449,9 @@
         </div>
     </div>
 
+
+    
+    
     
 
        <!-- Bootstrap core JavaScript-->
@@ -480,52 +469,12 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ URL::asset('js/demo/datatables-demo.js')}}"></script>
+
+
+
     
 
-    <script>
-        $('#crear-contratista').click(function()
-        {
-        
-            $("#formulario-contratista").show();
-            $("#formulario-backoffice").hide();
-
-
-            $("#nombre").attr("disabled","disabled");
-            $("#telefono").attr("disabled","disabled");
-            $("#correo").attr("disabled","disabled");
-            $("#clave").attr("disabled","disabled");
-            $("#repiteclave").attr("disabled","disabled");
-
-            $("#nombre-contratista").removeAttr("disabled","disabled");
-            $("#telefono-contratista").removeAttr("disabled","disabled");
-            $("#correo-contratista").removeAttr("disabled","disabled");
-            $("#clave-contratista").removeAttr("disabled","disabled");
-            $("#repiteclave-contratista").removeAttr("disabled","disabled");
-            $("#direccion-contratista").removeAttr("disabled","disabled");
-        
-        });
-        
-        $('#crear-backoffice').click(function()
-        {
-        
-            $("#formulario-contratista").hide();
-            $("#formulario-backoffice").show();
-
-            $("#nombre-contratista").attr("disabled","disabled");
-            $("#telefono-contratista").attr("disabled","disabled");
-            $("#correo-contratista").attr("disabled","disabled");
-            $("#clave-contratista").attr("disabled","disabled");
-            $("#repiteclave-contratista").attr("disabled","disabled");
-            $("#direccion-contratista").attr("disabled","disabled");
-
-            $("#nombre").removeAttr("disabled");
-            $("#telefono").removeAttr("disabled");
-            $("#correo").removeAttr("disabled");
-            $("#clave").removeAttr("disabled");
-            $("#repiteclave").removeAttr("disabled");
-        
-        });
-    </script>
+</script>
 
 
 </body>
