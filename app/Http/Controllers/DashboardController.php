@@ -91,7 +91,7 @@ class DashboardController extends Controller
                 'descripcion.min'      => ' El campo descripcion debe tener al menos 2 caracteres',
 
                 'monto.required'       => ' El campo monto es obligatorio',
-                'monto.numeric'        => ' El campo monto no debe tener más de 300 caracteres',
+                'monto.numeric'        => ' El campo monto debe ser numerico entero',
 
                 'iddato.numeric'       => ' Se elimino el id',
             ]);
@@ -133,7 +133,12 @@ class DashboardController extends Controller
             $totegresos = $egreso->totegresos;
         }
 
-/*         $registros = Calculo::all();
+/*      
+
+
+
+
+        $registros = Calculo::all();
         $calculo = [];
         foreach ($registros as $registro)
         {

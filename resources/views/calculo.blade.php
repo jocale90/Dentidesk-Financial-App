@@ -256,13 +256,13 @@ input[type="number"] {
                                                         <div class="container">
   <div class="row">
     <div class="col-sm">
-      Calculo Total de Ingresos: $ {{$totingresos}}
+      Calculo Total de Ingresos: $  <b>   {{$totingresos}}  </b>
     </div>
     <div class="col-sm">
-      Calculo Total de Egresos: $ {{$totegresos}}
+      Calculo Total de Egresos: $  <b>    {{$totegresos}}  </b>
     </div>
     <div class="col-sm">
-        Calculo Total balance: $ {{$totingresos - $totegresos }}
+        Calculo Total balance: $   <b>  {{$totingresos - $totegresos}}   </b>
     </div>
   </div>
 </div>
@@ -419,7 +419,7 @@ Highcharts.chart('container', {
     }
   },
   series: [{
-    name: 'Brands',
+    name: 'Categorias',
     colorByPoint: true,
     data: [{
       name: 'Salud',
