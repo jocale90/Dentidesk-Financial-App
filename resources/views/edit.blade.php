@@ -232,6 +232,7 @@
                                                                 </div>
                                                                 <div class="col-12 col-sm">
                                                                     <input type="text" id="telefono" maxlength="9" name="monto" class="form-control" value="{{ $dato->monto }}">
+                                                                    <span style="margin-left: 20px;" id="textoad"></span>
                                                                 </div>
                                                             </div>
                                                           
@@ -270,163 +271,9 @@
         <i class="fas fa-angle-up"></i>
     </a>
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Asignar Contratista a solicitud N° </h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="col">
-                        <div class="row my-3">
-                            <div class="col"><label for="">Seleccionar Contratista</label></div>
-                            <div class="col">
-                                <Select class="form-control" name="setcontratista" id="setcontratista">
-                                    <option value=""> Seleccione un contratista </option>
-                                    @if(isset($obtcontratista))
-                                        @foreach($obtcontratista as $con)
-                                            <option value="{{ $con->id_contratista }}"> {{ $con->nombre }} </option>
-                                        @endforeach
-                                    @endif    
+  
+   
 
-                                </Select>
-                                
-                            </div>
-                            
-                        </div>
-                        <p id="texto_error_contratista" style="color:red; font-size:14px; display: none;">Debe seleccionar un contratista</p>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a class="btn btn-primary" id="savecontratista"> Asignar Contratista </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="exampleModal2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ingresar observaciones a solicitud N° </h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="col">
-                        <div class="row">
-                            <div class="col">
-                                <textarea name="textobservaciones" id="textobservaciones" maxlength="999" class="form-control w-100" cols="" rows="6"></textarea>
-                                <br>
-                                <p>Nota: al guardar las observaciones, se regresará la solicitud al cliente con el estado "Rechazada".</p>
-                                <p id="texto_error" style="color:red; font-size:14px; display: none;">El campo de texto es requerido</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
-                    <a id="gyr" class="btn btn-primary" type="button">Guardar y rechazar</a>
-                </div>
-            </div>
-        </div>
-    </div>
-    
-
-    <div class="modal fade" id="successmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Asignar Contratista a solicitud N° </h5>
-                    <button class="close cerrarreload" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="col">
-                        <div class="row my-3">
-                            <div class="col">
-                                <div class="p-3 mb-2 bg-success text-white">Se ha asiganado contratista a la orden numero</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary cerrarreload" type="button" data-dismiss="modal">Cerrar</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    
-
-    </div>
-
-
-    <div class="modal fade" id="modalpreguntaseguridad" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modificación  de orden </h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                <div class="col">
-                        <div class="row my-3">
-                            <div class="col">
-                                <div class="p-3 mb-2 text-black">¿Está seguro de cambiar el estado a rechazado?</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" id="cancelarpeticion" data-dismiss="modal" >Cancelar</button>
-                    <a class="btn btn-primary" id="savecontratista" onclick="rechazarorden()"> Proceder </a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="modalpreguntaseguridad2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modificación  de orden </h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                <div class="col">
-                        <div class="row my-3">
-                            <div class="col">
-                                <div class="p-3 mb-2 text-black">¿Está seguro de asignar a contratista?</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" id="cancelarpeticion" data-dismiss="modal" >Cancelar</button>
-                    <a class="btn btn-primary" id="savecontratista" onclick="asignarcontratista()"> Proceder </a>
-                </div>
-            </div>
-        </div>
     </div>
 
 
@@ -469,6 +316,24 @@
 
     <!-- Page level custom scripts -->
     <script src="{{ URL::asset('js/demo/datatables-demo.js')}}"></script>
+
+    <script>
+                $('input[name="monto"]').keyup(function(e)
+        {
+            let textoad = document.getElementById('textoad');
+            textoad.innerHTML = "";
+
+            if (/\D/g.test(this.value))
+            {
+                this.value = this.value.replace(/\D/g, '');
+                textoad.innerHTML = "Ingrese solo numeros";
+                
+            }
+        });
+    </script>
+
+
+    
 
 
 
