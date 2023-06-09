@@ -228,7 +228,7 @@
                                                                     <label for="">Descripcion del egreso</label>
                                                                 </div>
                                                                 <div class="col-12 col-sm">
-                                                                    <input type="text" id="telefono" name="descripcion" class="form-control" value="">
+                                                                    <input type="text" maxlength="90" id="telefono" name="descripcion" class="form-control" value="">
                                                                 </div>
                                                             </div>
                                                             <div class="row mt-3">
@@ -236,7 +236,8 @@
                                                                     <label for="">Monto egresado</label>
                                                                 </div>
                                                                 <div class="col-12 col-sm">
-                                                                    <input type="text" id="correo" name="monto" value="" class="form-control">
+                                                                    <input type="text" maxlength="8"  id="correo" name="monto" value="" class="form-control">
+                                                                    
                                                                 </div>
                                                             </div>
                                                             <div class="row mt-5 text-center">
@@ -279,7 +280,7 @@
                                                                     <label for="">Descripción del ingreso</label>
                                                                 </div>
                                                                 <div class="col-12 col-sm">
-                                                                    <input type="text" id="direccion-contratista" name="descripcion" class="form-control" value="">
+                                                                    <input type="text" maxlength="90" id="direccion-contratista" name="descripcion" class="form-control" value="">
                                                                 </div>
                                                             </div>
                                                             <div class="row mt-3">        
@@ -287,7 +288,8 @@
                                                                     <label for="">Monto Ingresado</label>
                                                                 </div>
                                                                 <div class="col-12 col-sm">
-                                                                    <input type="text" id="telefono-contratista" name="monto" class="form-control" value="">
+                                                                    <input type="text" maxlength="8" id="telefono-contratista" name="monto" class="form-control" value="">
+                                                                    <span style="margin-left: 20px;" id="textoad"></span>
                                                                 </div>
                                                             </div>
                                                             <div class="row mt-5 text-center">
@@ -524,6 +526,19 @@
             $("#clave").removeAttr("disabled");
             $("#repiteclave").removeAttr("disabled");
         
+        });
+
+        $('input[name="monto"]').keyup(function(e)
+        {
+            let textoad = document.getElementById('textoad');
+            textoad.innerHTML = "";
+
+            if (/\D/g.test(this.value))
+            {
+                this.value = this.value.replace(/\D/g, '');
+                textoad.innerHTML = "Ingrese solo numeros";
+                
+            }
         });
     </script>
 

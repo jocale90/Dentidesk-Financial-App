@@ -70,8 +70,16 @@ class DashboardController extends Controller
     public function edit($id)
     {
         $datos = Records::where('id',$id)->get();
-        $categorias = Categorias::all();
-        return view('edit', compact("categorias","datos"));
+
+        if(count($datos) > 0 )
+        {
+            $categorias = Categorias::all();
+            return view('edit', compact("categorias","datos"));
+        }
+        else
+        {
+            return redirect()->route('dashboard.index')->with('message', 'El registro consultado no existe.');
+        }
     }
 
     public function procesarupdate(Request $request)
@@ -133,11 +141,7 @@ class DashboardController extends Controller
             $totegresos = $egreso->totegresos;
         }
 
-/*      
-
-
-
-
+        /*      
         $registros = Calculo::all();
         $calculo = [];
         foreach ($registros as $registro)

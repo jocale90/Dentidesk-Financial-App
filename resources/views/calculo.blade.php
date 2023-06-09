@@ -228,11 +228,13 @@ input[type="number"] {
                                                 <div class="col-12 col-sm-10 m-auto">
                                                     <div class="row">
                                                         <div class="col-12 col-sm">
-                                                            
                                                                 <figure class="highcharts-figure">
                                                                     <div id="container"></div>
                                                                     <p class="highcharts-description">
                                                                         El grafico de pastel  Es un recurso estadístico que se utiliza para representar porcentajes y proporciones.
+                                                                        
+
+                                                                        
                                                                     </p>
                                                                 </figure>
                                                         </div>
@@ -256,13 +258,13 @@ input[type="number"] {
                                                         <div class="container">
   <div class="row">
     <div class="col-sm">
-      Calculo Total de Ingresos: $  <b>   {{$totingresos}}  </b>
+      Calculo Total de Ingresos: $  <b>  @if(isset($totingresos))  {{ number_format($totingresos, 0 ,',' ,'.') }}      @endif </b>
     </div>
     <div class="col-sm">
-      Calculo Total de Egresos: $  <b>    {{$totegresos}}  </b>
+      Calculo Total de Egresos: $  <b>  @if(isset($totegresos))   {{ number_format($totegresos, 0 ,',' ,'.') }}      @endif </b>
     </div>
     <div class="col-sm">
-        Calculo Total balance: $   <b>  {{$totingresos - $totegresos}}   </b>
+        Calculo Total balance: <br> $   <b>  @if(isset($totingresos)) {{ number_format($totingresos - $totegresos, 0 ,',' ,'.') }}   @endif </b>
     </div>
   </div>
 </div>
@@ -388,7 +390,10 @@ input[type="number"] {
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script>
-        // Data retrieved from https://netmarketshare.com
+// Data retrieved from https://netmarketshare.com
+
+
+
 Highcharts.chart('container', {
   chart: {
     plotBackgroundColor: null,
@@ -397,7 +402,7 @@ Highcharts.chart('container', {
     type: 'pie'
   },
   title: {
-    text: 'Grafico de ingresos Dentidesk',
+    text: 'Grafico total de trasacciones',
     align: 'left'
   },
   tooltip: {
@@ -419,28 +424,13 @@ Highcharts.chart('container', {
     }
   },
   series: [{
-    name: 'Categorias',
-    colorByPoint: true,
-    data: [{
-      name: 'Salud',
-      y: 30,
-      sliced: true,
-      selected: true
-    }, {
-      name: 'Educacion',
-      y: 20
-    },  {
-      name: 'Seguros',
-      y: 15
-    }, {
-      name: 'Alimentacion',
-      y: 25
-    },{
-      name: 'Otros',
-      y: 10
+        name: 'Transacciones',
+        colorByPoint: true,
+        data:  [ { name:'Ingresos',y:  <?= $totingresos ?> },{name: 'Egresos',y: <?= $totegresos ?> }]
+        
     }]
-  }]
 });
+
     </script>
     
     

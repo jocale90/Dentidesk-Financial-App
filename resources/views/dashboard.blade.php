@@ -198,7 +198,7 @@
                                                                 <td style="text-align: right;">{{    $re->id     }}</td>
                                                                 <td>@if   ($re->tipo == 1) <span style="color: green;"> <b>Ingreso</b>  </span>  @else <span style="color: red;"> Egreso </span> @endif</td>
                                                                 <td>{{    $re->categoria      }}</td>
-                                                                <td>$ {{    $re->monto      }}</td>
+                                                                <td>$     {{ number_format($re->monto, 0 ,',' ,'.') }}      </td>
                                                                 <td>{{    $re->descripcion      }}</td>
                                                                 <td>
                                                                     <?php                        
@@ -264,7 +264,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modificación de usuario</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Mensaje del sistema</h5>
                     <button class="close cerrarreload" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
@@ -290,11 +290,6 @@
     </div>
 
 
-    @if (Session::has('message'))
-        <script>
-            $("#respuestasuccess").modal("show");
-        </script>
-    @endif
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>
@@ -311,6 +306,13 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+
+    
+    @if (Session::has('message'))
+        <script>
+            $("#respuestasuccess").modal("show");
+        </script>
+    @endif
 
 
 <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
